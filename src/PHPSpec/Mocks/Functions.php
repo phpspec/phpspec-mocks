@@ -31,7 +31,7 @@ function double($class = 'stdClass', $stubs = array())
 {
     $double = \PHPSpec\Mocks\Mock::mock($class);
     if (!empty($stubs)) {
-        foreach($stubs as $stub => $value) {
+        foreach ($stubs as $stub => $value) {
             $double->stub($stub)->andReturn($value);
         }
     }

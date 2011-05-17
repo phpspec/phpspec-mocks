@@ -32,20 +32,6 @@ namespace PHPSpec\Mocks;
 class Mock
 {
     /**
-     * The name of the class being mocked
-     *
-     * @var string
-     */
-    protected $class;
-    
-    /**
-     * The list of methods or properties being stubbed
-     *
-     * @var string
-     */
-    protected $stubs = array();
-
-    /**
      * Creates a mock of the class given
      *
      * @param string $class
@@ -56,10 +42,10 @@ class Mock
         $class = self::getClassBody($class);
         eval ($class['body']);
         return unserialize(
-          sprintf(
-            'O:%d:"%s":0:{}',
-            strlen($class['name']), $class['name']
-          )
+            sprintf(
+                'O:%d:"%s":0:{}',
+                strlen($class['name']), $class['name']
+            )
         );
     }
 
@@ -101,11 +87,15 @@ class $className extends $class
         }
         for (\$i = 0; \$i < func_num_args(); \$i) {
             if (\$i === 0) {
-                \$this->stub(\$stubs[\$i])->andReturn(\$\$stubs[\$i+1]);                
+                \$this->stub(\$stubs[\$i])->andReturn(\$\$stubs[\$i+1]);
             } elseif (\$i !== func_num_args() - 1) {
-                \$\$stubs[\$i]->stub(\$\$stubs[\$i+1])->andReturn(\$\$stubs[\$i+1]);
+                \$\$stubs[\$i]->stub(\$\$stubs[\$i+1])->andReturn(
+                    \$\$stubs[\$i+1]
+                );
             } else {
-                \$\$stubs[\$i]->stub(\$\$stubs[\$i+1])->andReturn(\$this->__mock_stubs[0]);
+                \$\$stubs[\$i]->stub(\$\$stubs[\$i+1])->andReturn(
+                    \$this->__mock_stubs[0]
+                );
             }
         }
         return \$this->__mock_stubs[0];

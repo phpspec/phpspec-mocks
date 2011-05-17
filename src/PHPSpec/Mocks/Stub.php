@@ -153,7 +153,8 @@ class Stub
     public function __stub_getResultToReturn()
     {
         if ($this->_expected !== self::ANY && $this->_counter === 0) {
-            throw new \PHPSpec\Mocks\ExpectedCountError(PHP_EOL .
+            throw new \PHPSpec\Mocks\ExpectedCountError(
+                PHP_EOL .
                 "           expected: $this->_expected times" . PHP_EOL .
                 "           received: " . ($this->_expected + 1) . " times"
             );
