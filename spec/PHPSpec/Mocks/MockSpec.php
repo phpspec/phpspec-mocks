@@ -83,11 +83,29 @@ class DescribeMock extends \PHPSpec\Context
     function itShouldBePossibleToDefineCounters()
     {
         $foo = double('Foo');
+
         $foo->stub('bar')->exactly(3)->andReturn('bar');
         $foo->bar();
         $foo->bar();
         $foo->bar();
-        
+    }
+    
+    function itComplainsWhenStubIsCallLessTimesThanExpected()
+    {
+        $foo = double('Foo');
+        try {
+            $foo->stub('bar')->exactly(3)->andReturn('bar');
+            $foo->bar();
+            $foo->bar();
+            unset($foo);
+        } catch (\Exception $e) {
+            $this->spec($e)->should->beAnInstanceOf('\PHPSpec\Mocks\ExpectedCountError');
+        }
+    }
+    
+    function itComplainsWhenStubIsCallMoreTimesThanExpected()
+    {
+        $foo = double('Foo');
         try {
             $foo->stub('bar')->exactly(2)->andReturn('bar');
             $foo->bar();
@@ -96,14 +114,23 @@ class DescribeMock extends \PHPSpec\Context
         } catch (\Exception $e) {
             $this->spec($e)->should->beAnInstanceOf('\PHPSpec\Mocks\ExpectedCountError');
         }
-        
+    }
+    
+    function itKnowsNeverMeansNever()
+    {
+        $foo = double('Foo');
         try {
             $foo->stub('bar')->never()->andReturn('bar');
             $foo->bar();
         } catch (\Exception $e) {
             $this->spec($e)->should->beAnInstanceOf('\PHPSpec\Mocks\ExpectedCountError');
         }
-        
+    }
+    
+    function itDoesntComplainItMethodNeverGetsCalled()
+    {
+        $foo = double('Foo');
         $foo->stub('bar')->never()->andReturn('bar');
+        unset($foo);
     }
 }

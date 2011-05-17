@@ -74,8 +74,11 @@ class $className extends $class
     
     public function stub(\$methodToStub)
     {
+        if (isset(\$this->__mock_stubs[\$methodToStub])) {
+            unset(\$this->__mock_stubs[\$methodToStub]);
+        }
         \$stub = new \\PHPSpec\\Mocks\\Stub(\$methodToStub);
-        \$this->__mock_stubs[] = \$stub;
+        \$this->__mock_stubs[\$methodToStub] = \$stub;
         return \$stub;
     }
     
@@ -127,7 +130,7 @@ class $className extends $class
     }
     
     protected function __mock_getStubFor(\$method) {
-        foreach (\$this->__mock_stubs as \$stub) {
+        foreach (\$this->__mock_stubs as \$stubName => \$stub) {
             if (\$stub->__stub_getMethod() === \$method) {
                 return \$stub;
             }

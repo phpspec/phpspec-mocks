@@ -88,6 +88,18 @@ class Stub
         $this->_method = $method;
     }
     
+    public function __destruct()
+    {
+        if (!is_null($this->_counter) && $this->_counter !== 0) {
+            $actual = $this->_expected - $this->_counter;
+            throw new \PHPSpec\Mocks\ExpectedCountError(
+                PHP_EOL .
+                "           expected: $this->_expected times" . PHP_EOL .
+                "           received: $actual times"
+            );
+        }
+    }
+    
     /**
      * Sets the value to be returned
      *
