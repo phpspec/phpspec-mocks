@@ -7,7 +7,7 @@ PHP BDD Framework **PHPSpec**.
 Examples
 --------
 
-1. Stubbing a method
+### 1. Stubbing a method
 
 Write your spec, replacing the dependency with a stub. Use the 'stub' method to
 add a stubbed method and 'andReturn' to specify the value you want to be
@@ -44,7 +44,7 @@ You can now write your class:
         }
     }
 
-2. Partial stubbing
+### 2. Partial stubbing
 
 You can specify that you want a method to be stubbed only when certain arguments are
 passed:
@@ -64,7 +64,7 @@ passed:
                   ->should->equal('Hello, Chuck!');
     }
 
-3. Stubbing a property
+### 3. Stubbing a property
 
 It is possible to stub a property in the same manner:
 
@@ -91,7 +91,7 @@ It is possible to stub a property in the same manner:
         }
     }
 
-4. Shortcut for creating a double
+### 4. Shortcut for creating a double
 
 It is possible to create a double and stubbing methods/properties all at once.
 So the method in the previous example could be replaced by
@@ -106,7 +106,7 @@ So the method in the previous example could be replaced by
         $this->spec($helloWorld->greetingWho())->should->equal('Chuck');
     }
 
-5. Empty doubles
+### 5. Empty doubles
 
 If your interface is type agnostic you can even create a mock without
 giving it a name
@@ -126,7 +126,7 @@ giving it a name
     // HelloWorld constructor:
     public function __construct($greeter) // <-- no type hinting
 
-6. Counters
+### 6. Counters
 
 It is also possible to specify mocks that expect a method/property to be
 accessed a specified number of times:
