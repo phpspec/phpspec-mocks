@@ -31,15 +31,26 @@ namespace PHPSpec\Mocks;
  */
 class Mock
 {
+    protected $_class;
+    
+    /**
+     * Constructs the mock factory
+     * 
+     * @param string $class
+     */
+    public function __construct($class)
+    {
+        $this->_class = $class;
+    }
+    
     /**
      * Creates a mock of the class given
      *
-     * @param string $class
      * @return object
      */
-    public static function mock($class)
+    public function create()
     {
-        $class = self::getClassBody($class);
+        $class = $this->getClassBody();
         eval ($class['body']);
         return unserialize(
             sprintf(
@@ -53,20 +64,19 @@ class Mock
      * Creates the mocked class body to be evaluated extending the original
      * one and adding a interceptor and stubbing enabling methods
      *
-     * @param string $class
      * @return array
      */
-    public static function getClassBody($class)
+    public function getClassBody()
     {
         $properties = $methods = '';
-        $className = "__Mock_{$class}_" . md5((string)microtime());
+        $className = "__Mock_{$this->_class}_" . md5((string)microtime());
         $body = <<<CLASS_BODY
 
-if (!class_exists('$class', false)) {
-    class $class {}
+if (!class_exists('$this->_class', false)) {
+    class $this->_class {}
 }
         
-class $className extends $class
+class $className extends $this->_class
 {
     public \$__mock_stubs = array();
     $properties
@@ -109,7 +119,7 @@ class $className extends $class
         if (\$stub = \$this->__mock_getStubFor(\$property)) {
             return \$stub->__stub_getResultToReturn();
         }
-        trigger_error("Undefined property: $class::\$property", E_USER_NOTICE);
+        trigger_error("Undefined property: $this->_class::\$property", E_USER_NOTICE);
     }
     
     public function __call(\$method, \$args)

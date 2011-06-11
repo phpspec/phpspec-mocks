@@ -21,7 +21,7 @@
  */
 
 /**
- * Wrapper for {@link \PHPSpec\Mocks\Mock::mock()}
+ * Wrapper for the {@link \PHPSpec\Mocks\Mock} factory
  * 
  * @param string $class
  * @param array  $stubs
@@ -29,7 +29,8 @@
  */
 function double($class = 'stdClass', $stubs = array())
 {
-    $double = \PHPSpec\Mocks\Mock::mock($class);
+    $double = new \PHPSpec\Mocks\Mock($class);
+    $double = $double->create();
     if (!empty($stubs)) {
         foreach ($stubs as $stub => $value) {
             $double->stub($stub)->andReturn($value);
@@ -39,7 +40,7 @@ function double($class = 'stdClass', $stubs = array())
 }
 
 /**
- * Wrapper for {@link \PHPSpec\Mocks\Mock::mock()}
+ * Wrapper for the {@link \PHPSpec\Mocks\Mock} factory
  * 
  * @param string $class
  * @param array  $stubs
@@ -51,7 +52,7 @@ function mock($class = 'stdClass', $stubs = array())
 }
 
 /**
- * Wrapper for {@link \PHPSpec\Mocks\Mock::mock()}
+ * Wrapper for the {@link \PHPSpec\Mocks\Mock} factory
  * 
  * @param string $class
  * @param array  $stubs

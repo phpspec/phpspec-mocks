@@ -27,7 +27,7 @@ class DescribeMock extends \PHPSpec\Context
             ->shouldReceive(42)
             ->andReturn('chuck');
         $this->spec($foo->bar(42))->should->be('chuck');
-        $this->spec($foo->bar(24))->shouldNot->be('chuck');
+        $this->spec($foo->bar(24))->shouldNot->be('chuck'); // <-- no need for types
         
         $foo = stub('Foo');
         $foo->stub('bar')
@@ -66,7 +66,7 @@ class DescribeMock extends \PHPSpec\Context
         $request = double();
         $request->stubChain('frontController', 'dispatcher', 'route', 'request');
 
-        /* this is the same as
+        /* this is the same as 
            $frontController = double();
            $dispatcher      = double();
            $route           = double();
